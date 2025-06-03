@@ -127,6 +127,7 @@ def main():
     try:
         log_and_print("Starting Discord RPC for DaVinci Resolve...")
         rpc = None
+        resolve_start_time = None # Variable to store the start timestamp
         
         while True:
             try:
@@ -139,6 +140,7 @@ def main():
                             rpc = None
                         except:
                             pass
+                    resolve_start_time = None # Reset timer if Discord is not running
                     time.sleep(5)
                     continue
                 
@@ -151,10 +153,18 @@ def main():
                         log_and_print("Successfully connected to Discord!")
                     except Exception as e:
                         log_and_print(f"Failed to connect to Discord: {e}")
+                        rpc = None # Reset RPC on connection failure
+                        resolve_start_time = None # Reset timer on connection failure
                         time.sleep(5)
                         continue
                 
+                # Check if Resolve is running
                 if is_resolve_running():
+                    # Set start time if it's the first detection
+                    if resolve_start_time is None:
+                        resolve_start_time = int(time.time())
+                        log_and_print(f"Resolve detected. Setting start time: {resolve_start_time}")
+                        
                     window_title = get_resolve_window_title()
                     version = get_resolve_version()
                     
@@ -171,12 +181,14 @@ def main():
                                 details=f"DaVinci Resolve {'Studio' if is_studio else 'Free'}",
                                 large_image="resolve_logo",
                                 large_text=f"DaVinci Resolve {'Studio' if is_studio else 'Free'} {version}",
-                                buttons=[{"label": "Project Manager", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}]
+                                buttons=[{"label": "Project Manager", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}],
+                                start=resolve_start_time # Include persistent start time
                             )
                             log_and_print("Status updated successfully")
                         except Exception as e:
                             log_and_print(f"Failed to update status: {e}")
                             rpc = None  # Reset connection on error
+                            resolve_start_time = None # Reset timer on update failure
                     else:
                         # Extract project name from window title and clean it up
                         project_name = window_title.replace("DaVinci Resolve", "").replace(" - Studio", "").replace(" - Free", "").strip()
@@ -188,12 +200,14 @@ def main():
                                     details=f"DaVinci Resolve {'Studio' if is_studio else 'Free'}",
                                     large_image="resolve_logo",
                                     large_text=f"DaVinci Resolve {'Studio' if is_studio else 'Free'} {version}",
-                                    buttons=[{"label": "View Project", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}]
+                                    buttons=[{"label": "View Project", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}],
+                                    start=resolve_start_time # Include persistent start time
                                 )
                                 log_and_print("Status updated successfully")
                             except Exception as e:
                                 log_and_print(f"Failed to update status: {e}")
                                 rpc = None  # Reset connection on error
+                                resolve_start_time = None # Reset timer on update failure
                         else:
                             log_and_print("Updating status: Editing (Project Name Unknown)")
                             try:
@@ -202,26 +216,32 @@ def main():
                                     details=f"DaVinci Resolve {'Studio' if is_studio else 'Free'}",
                                     large_image="resolve_logo",
                                     large_text=f"DaVinci Resolve {'Studio' if is_studio else 'Free'} {version}",
-                                    buttons=[{"label": "View Project", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}]
+                                    buttons=[{"label": "View Project", "url": "https://www.blackmagicdesign.com/products/davinciresolve/"}],
+                                    start=resolve_start_time # Include persistent start time
                                 )
                                 log_and_print("Status updated successfully")
                             except Exception as e:
                                 log_and_print(f"Failed to update status: {e}")
                                 rpc = None  # Reset connection on error
+                                resolve_start_time = None # Reset timer on update failure
                 else:
+                    # Resolve is not running
                     log_and_print("Resolve not running, clearing status")
                     try:
                         if rpc is not None:
                             rpc.clear()
                             log_and_print("Status cleared successfully")
+                        resolve_start_time = None # Reset timer when Resolve is closed
                     except Exception as e:
                         log_and_print(f"Failed to clear status: {e}")
                         rpc = None  # Reset connection on error
+                        resolve_start_time = None # Reset timer on clear failure
                 
                 time.sleep(15)  # Update every 15 seconds
             except Exception as e:
                 log_and_print(f"Error in main loop: {e}")
                 rpc = None  # Reset connection on error
+                resolve_start_time = None # Reset timer on general loop error
                 time.sleep(15)  # Wait before retrying
     except Exception as e:
         log_and_print(f"Fatal error: {e}")

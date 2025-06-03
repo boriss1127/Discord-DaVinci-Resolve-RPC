@@ -156,7 +156,7 @@
  [],
  False,
  False,
- 1748962457,
+ 1748964380,
  [('runw.exe',
    'd:\\PC\\discord davinci '
    'rpc\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
