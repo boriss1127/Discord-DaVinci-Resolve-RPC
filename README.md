@@ -12,6 +12,12 @@ To download, double click the .exe that you installed from the Releases tab on G
 
 <image src="image/image.png">
 
+---
+
+Please give feedback in the [Issues](https://github.com/boriss1127/Discord-DaVinci-Resolve-RPC/issues) tab, and record any bugs. Please include images or videos in your comment so that I can understand your problem easier!
+
+---
+
 PATCH NOTES-
 
 **<ins>v1.0.0**</ins> - **_Release 1_** - First version of app uploaded to Github. <br>
