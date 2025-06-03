@@ -1,33 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-block_cipher = None
 
 a = Analysis(
     ['resolve_rpc.py'],
     pathex=[],
     binaries=[],
     datas=[('resolve_logo.png', '.')],
-    hiddenimports=['win32gui', 'win32con', 'win32api'],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
+    optimize=0,
 )
-
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
-    name='ResolveRPC',
+    name='resolve_rpc',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -40,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='resolve_logo.ico'
-) 
+    icon=['resolve_logo.ico'],
+)

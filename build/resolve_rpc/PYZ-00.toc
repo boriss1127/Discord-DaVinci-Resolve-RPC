@@ -629,10 +629,6 @@
   ('urllib.response',
    'C:\\Users\\borov\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\urllib\\response.py',
    'PYMODULE'),
-  ('win32con',
-   'd:\\PC\\discord davinci '
-   'rpc\\.venv\\Lib\\site-packages\\win32\\lib\\win32con.py',
-   'PYMODULE'),
   ('xml',
    'C:\\Users\\borov\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\xml\\__init__.py',
    'PYMODULE'),
